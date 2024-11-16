@@ -12,7 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.shoppingapp.weatherapp_jetpackcompose.ui.mvvm.WeatherViewModel
+import com.shoppingapp.weatherapp_jetpackcompose.mvvm.WeatherViewModel
 import com.shoppingapp.weatherapp_jetpackcompose.ui.screens.WeatherScreen
 import com.shoppingapp.weatherapp_jetpackcompose.ui.theme.WeatherAppJetpackComposeTheme
 

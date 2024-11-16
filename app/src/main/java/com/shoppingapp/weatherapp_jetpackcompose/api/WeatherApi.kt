@@ -1,6 +1,6 @@
-package com.shoppingapp.weatherapp_jetpackcompose.ui.api
+package com.shoppingapp.weatherapp_jetpackcompose.api
 
-import com.shoppingapp.weatherapp_jetpackcompose.ui.mvvm.Weather
+import com.shoppingapp.weatherapp_jetpackcompose.mvvm.Weather
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

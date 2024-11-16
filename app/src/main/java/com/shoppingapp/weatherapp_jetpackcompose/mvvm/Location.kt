@@ -1,4 +1,4 @@
-package com.shoppingapp.weatherapp_jetpackcompose.ui.mvvm
+package com.shoppingapp.weatherapp_jetpackcompose.mvvm
 
 data class Location(
     val country: String,

@@ -1,4 +1,4 @@
-package com.shoppingapp.weatherapp_jetpackcompose.ui.api
+package com.shoppingapp.weatherapp_jetpackcompose.api
 
 import com.google.gson.Gson
 import retrofit2.Retrofit
