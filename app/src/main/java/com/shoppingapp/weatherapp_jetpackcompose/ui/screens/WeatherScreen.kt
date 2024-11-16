@@ -97,6 +97,6 @@ fun WeatherScreen(
 @Preview
 @Composable
 private fun Preview() {
-    val viewModel : WeatherViewModel by viewModels<WeatherViewModel>()
-    WeatherScreen(viewModel = viewModel)
+//    val viewModel : WeatherViewModel by viewModels<WeatherViewModel>()
+//    WeatherScreen(viewModel = viewModel)
 }
