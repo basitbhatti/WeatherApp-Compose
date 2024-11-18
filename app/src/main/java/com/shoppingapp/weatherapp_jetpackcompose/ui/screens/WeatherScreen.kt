@@ -1,7 +1,9 @@
 package com.shoppingapp.weatherapp_jetpackcompose.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +15,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +37,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,6 +55,8 @@ fun WeatherScreen(
 ) {
 
     var weatherResult = viewModel.weatherResult.observeAsState()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     var city by remember {
         mutableStateOf("")
@@ -100,6 +109,7 @@ fun WeatherScreen(
                 IconButton(
                     onClick = {
                         viewModel.getData(city)
+                        keyboardController?.hide()
                     },
                     modifier = Modifier
                         .align(Alignment.Center)
@@ -186,7 +196,7 @@ fun WeatherDetails(
         }
 
         val url = "https:${data.current.condition.icon}"
-        Log.d("TAGICON", url)
+        Toast.makeText(LocalContext.current, url, Toast.LENGTH_SHORT).show()
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             AsyncImage(
@@ -199,6 +209,89 @@ fun WeatherDetails(
             Text(text = "${data.current.condition.text}", fontSize = 22.sp, color = Color.Black)
         }
 
+        Card (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                         horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = data.current.humidity, fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "Humidity", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = "${data.current.wind_kph} km/h",fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "Wind Speed", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = data.current.uv,fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "UV", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = "${data.current.precip_mm} mm",fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "Precipitation", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = data.location.localtime.split(" ")[1],fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "Local Time", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                    Column(modifier = Modifier.fillMaxHeight().weight(0.5f),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center){
+                        Text(text = data.location.localtime.split(" ")[0], fontWeight = FontWeight.Medium, fontSize = 16.sp, color = Color.Black)
+                        Text(text = "Local Date", fontSize = 12.sp, color = Color.Black)
+                    }
+
+                }
+
+
+            }
+
+        }
 
     }
 
