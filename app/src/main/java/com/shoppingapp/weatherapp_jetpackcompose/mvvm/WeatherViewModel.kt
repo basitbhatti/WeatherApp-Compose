@@ -1,5 +1,6 @@
 package com.shoppingapp.weatherapp_jetpackcompose.mvvm
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,8 @@ open class WeatherViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let {
                         _weatherResult.value = NetworkResponse.Success(it)
+                        val url = "https:${it.current.condition.icon}"
+                        Log.d("TAGICON", url)
                     }
                 } else {
                     _weatherResult.value = NetworkResponse.Error("Error Occurred!")
