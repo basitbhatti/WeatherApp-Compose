@@ -9,13 +9,12 @@ import com.shoppingapp.weatherapp_jetpackcompose.utils.Constants.API_KEY
 import com.shoppingapp.weatherapp_jetpackcompose.utils.NetworkResponse
 import kotlinx.coroutines.launch
 
-class WeatherViewModel : ViewModel() {
+open class WeatherViewModel : ViewModel() {
 
     val retrofitInstance = RetrofitInstance.weatherApi
 
     private val _weatherResult = MutableLiveData<NetworkResponse<Weather>>()
     val weatherResult: LiveData<NetworkResponse<Weather>> = _weatherResult
-
 
     fun getData(city: String) {
         _weatherResult.value = NetworkResponse.Loading

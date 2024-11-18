@@ -4,12 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -25,8 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.shoppingapp.weatherapp_jetpackcompose.mvvm.Weather
 import com.shoppingapp.weatherapp_jetpackcompose.mvvm.WeatherViewModel
 import com.shoppingapp.weatherapp_jetpackcompose.utils.NetworkResponse
 
@@ -97,11 +103,9 @@ fun WeatherScreen(
             is NetworkResponse.Error -> {
                 Box(
                     modifier =
-                    modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    modifier.fillMaxSize()
                 ) {
                     Text(text = result.message)
-
                 }
             }
 
@@ -121,12 +125,51 @@ fun WeatherScreen(
                     modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = result.data.location.name)
+                    WeatherDetails(data = result.data)
                 }
             }
 
             null -> {}
         }
+    }
+}
+
+
+@Composable
+fun WeatherDetails(
+    modifier: Modifier = Modifier,
+    data: Weather
+) {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 15.dp),
+            verticalAlignment = Alignment.Bottom
+        ) {
+
+            Icon (
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = data.location.name
+            )
+
+            Spacer(modifier = modifier.width(10.dp))
+
+            Text(text = data.location.name, fontSize = 22.sp, color = Color.Black)
+
+            Spacer(modifier = modifier.width(10.dp))
+
+            Text(text = data.location.country, fontSize = 16.sp, color = Color.Black)
+
+        }
+
+        Text(text = data.location.name, fontSize = 22.sp, color = Color.Black)
+
 
 
     }
@@ -137,6 +180,9 @@ fun WeatherScreen(
 @Preview
 @Composable
 private fun Preview() {
-//    val viewModel : WeatherViewModel by viewModels<WeatherViewModel>()
-//    WeatherScreen(viewModel = viewModel)
+    val context = LocalContext.current
+    val fakeViewModel = WeatherViewModel().apply {
+    }
+
+    WeatherScreen(viewModel = fakeViewModel)
 }

@@ -70,5 +70,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.7.5")
-
+    implementation("io.coil-kt.coil3:coil-compose:3.0.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation ("androidx.activity:activity-ktx:1.9.3")
+    implementation ("androidx.fragment:fragment-ktx:1.8.5")
 }
