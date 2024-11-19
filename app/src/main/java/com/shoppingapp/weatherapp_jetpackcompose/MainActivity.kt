@@ -1,5 +1,6 @@
 package com.shoppingapp.weatherapp_jetpackcompose
 
+import android.content.Context
 import android.net.wifi.hotspot2.pps.HomeSp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,20 +15,24 @@ import com.shoppingapp.weatherapp_jetpackcompose.ui.theme.WeatherAppJetpackCompo
 
 class MainActivity : ComponentActivity() {
 
+
+    lateinit var context : Context
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             WeatherAppJetpackComposeTheme {
+                context = this@MainActivity
                 Home()
             }
         }
     }
 
-
     @Composable
     fun Home(modifier: Modifier = Modifier) {
         val viewModel: WeatherViewModel by viewModels<WeatherViewModel>()
-        WeatherScreen(viewModel = viewModel)
+        WeatherScreen(viewModel = viewModel, context = context)
     }
 
     @Preview

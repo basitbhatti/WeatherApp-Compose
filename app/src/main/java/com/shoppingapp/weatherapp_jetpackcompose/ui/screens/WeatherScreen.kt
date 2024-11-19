@@ -1,5 +1,6 @@
 package com.shoppingapp.weatherapp_jetpackcompose.ui.screens
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -44,12 +45,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.pdftoexcel.bankstatementconverter.utils.PrefManager
 import com.shoppingapp.weatherapp_jetpackcompose.mvvm.Weather
 import com.shoppingapp.weatherapp_jetpackcompose.mvvm.WeatherViewModel
+import com.shoppingapp.weatherapp_jetpackcompose.utils.Constants.IS_CITY_SET
+import com.shoppingapp.weatherapp_jetpackcompose.utils.Constants.LOCATION
 import com.shoppingapp.weatherapp_jetpackcompose.utils.NetworkResponse
 
 @Composable
 fun WeatherScreen(
+    context : Context,
     modifier: Modifier = Modifier,
     viewModel: WeatherViewModel
 ) {
@@ -61,6 +66,11 @@ fun WeatherScreen(
     var city by remember {
         mutableStateOf("")
     }
+
+//    if (PrefManager(context).getBoolean(IS_CITY_SET)){
+//        city = PrefManager(context).getString(LOCATION)
+//        viewModel.getData(city)
+//    }
 
     Column(
         modifier = modifier
@@ -81,6 +91,7 @@ fun WeatherScreen(
                     .weight(0.8f),
                 contentAlignment = Alignment.Center
             ) {
+
 
                 OutlinedTextField(
                     modifier = Modifier.padding(bottom = 10.dp),
@@ -148,6 +159,8 @@ fun WeatherScreen(
                     modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
+                    PrefManager(context).saveBoolean(IS_CITY_SET, true)
+                    PrefManager(context).saveString(LOCATION, result.data.location.name)
                     WeatherDetails(data = result.data)
                 }
             }
@@ -195,16 +208,14 @@ fun WeatherDetails(
             Text(text = "${data.current.temp_c}°C", fontSize = 32.sp, color = Color.Black)
         }
 
-        val url = "https:${data.current.condition.icon}"
-        Toast.makeText(LocalContext.current, url, Toast.LENGTH_SHORT).show()
-
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            AsyncImage(
-                modifier = Modifier.size(128.dp),
-                model = url,
-                contentDescription = data.current.condition.text
-            )
-        }
+//        val url = "https:${data.current.condition.icon}"
+//        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+//            AsyncImage(
+//                modifier = Modifier.size(128.dp),
+//                model = url,
+//                contentDescription = data.current.condition.text
+//            )
+//        }
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Text(text = "${data.current.condition.text}", fontSize = 22.sp, color = Color.Black)
         }
@@ -304,6 +315,5 @@ private fun Preview() {
     val context = LocalContext.current
     val fakeViewModel = WeatherViewModel().apply {
     }
-
-    WeatherScreen(viewModel = fakeViewModel)
+    WeatherScreen(viewModel = fakeViewModel, context = LocalContext.current)
 }
